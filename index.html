@@ -52,10 +52,10 @@ button:focus-visible,.btn:focus-within,a:focus-visible{outline:2px solid var(--a
 .viewer .close{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border-color:transparent}
 .status{font-size:13px;margin-top:10px;min-height:1.2em;color:var(--muted)}
 .status.err{color:var(--bad)}
-.samples{display:flex;flex-direction:column;gap:6px;margin-top:6px}
-.samples button{justify-content:space-between;font-weight:500;font-size:13px;width:100%;text-align:left}
-.samples code{font-family:var(--mono);font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.samples span{white-space:nowrap}
+
+
+
+
 
 /* ficha */
 .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
@@ -125,11 +125,6 @@ footer{margin-top:28px;font-size:12px;color:var(--muted)}
           <button type="button" class="close small" id="camStop">Cerrar</button>
         </div>
         <p class="status" id="status" role="status"></p>
-      </section>
-
-      <section class="panel" aria-labelledby="lblTry">
-        <p class="label" id="lblTry">Probar con etiquetas de ejemplo</p>
-        <div class="samples" id="samples"></div>
       </section>
     </div>
 
@@ -394,14 +389,9 @@ $('photo').onchange=async e=>{
   else status('No encontré un código legible. Acércate, enfoca bien y evita reflejos.',true);
 };
 
-// ---- ejemplos ----
-const SAMPLES=[{"label": "GS1-128 · FG WATCHMAN Access Sys Single Curv", "code": "]C10108714729797753172803001024081573\u001d21WM0042"}, {"label": "GS1 DataMatrix · vence pronto", "code": "0108714729783008172611301025-19784"}, {"label": "Etiqueta vencida · FG VERIFLEX MR, US 2.75mm X ", "code": "(01)08714729395454(17)250600(10)18207731"}, {"label": "Code 128 del PDF (solo GTIN)", "code": "08714729450016"}, {"label": "EAN-13", "code": "8714729847564"}, {"label": "Búsqueda por nombre", "code": "Promus 3.00"}];
-$('samples').innerHTML=SAMPLES.map((s,i)=>`<button type="button" data-s="${i}"><span>${esc(s.label)}</span><code>${showRaw(s.code)}</code></button>`).join('');
-$('samples').querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>handle(SAMPLES[+b.dataset.s].code));
-
 renderHist();
 if(hist.length)render(interpret(hist[0].raw));
-else render(interpret(SAMPLES[0].code),{example:true});
+else $('result').innerHTML='<p class="label">Resultado</p><div class="empty">Escanea una etiqueta o escribe un GTIN, UPN, número de catálogo o nombre. Aquí verás el producto, el lote y el vencimiento.</div>';
 </script>
 
 </body></html>
